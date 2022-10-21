@@ -27,7 +27,7 @@ title: IN # the main title
 tagline: IN's Blog # it will display as the sub-title
 
 description: >- # used by seo meta and the atom feed
-  A minimal, responsive, and powerful Jekyll theme for presenting professional writing.
+  Static site
 
 # fill in the protocol & hostname for your site, e.g., 'https://username.github.io'
 url: "https://in63119.github.io"
@@ -81,7 +81,7 @@ theme_mode: # [light|dark]
 # will be added to all image (site avatar & posts' images) paths starting with '/'
 #
 # e.g. 'https://cdn.com'
-img_cdn: "https://raw.githubusercontent.com/cotes2020/chirpy-images/main"
+img_cdn: "https://raw.githubusercontent.com/in63119/in63119.github.io/tree/main/assets/img"
 
 # the avatar on sidebar, support local or CORS resources
 avatar: "/profile.jpg"

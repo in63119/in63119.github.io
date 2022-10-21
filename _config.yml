@@ -81,7 +81,7 @@ theme_mode: # [light|dark]
 # will be added to all image (site avatar & posts' images) paths starting with '/'
 #
 # e.g. 'https://cdn.com'
-img_cdn: "https://raw.githubusercontent.com/in63119/in63119.github.io/tree/main/assets/img"
+img_cdn: "https://raw.githubusercontent.com/in63119/in63119.github.io/main/assets/img"
 
 # the avatar on sidebar, support local or CORS resources
 avatar: "/profile.jpg"

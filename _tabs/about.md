@@ -22,8 +22,4 @@ in63119@gmail.com
 https://velog.io/@in63119
 
 ### Instagram
-<p>
-  <img src="https://user-images.githubusercontent.com/65399118/197374431-7925b1ed-4389-473d-a6b0-309e2f17248a.jpeg" alt="insta" width="30"/>
-  
-  </p>
   https://www.instagram.com/_coldbrew_lover/

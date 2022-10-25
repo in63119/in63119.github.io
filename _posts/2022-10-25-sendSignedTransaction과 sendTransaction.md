@@ -71,6 +71,7 @@ let transactionObject = {
 let fromAccount = web3.personal.unlockAccount('0x...`,'123');
 ```
 2. 잠금 해체한 주소를 트랜잭션 객체에 집어 넣어서 함수 실행. [참고](https://web3js.readthedocs.io/en/v1.8.0/web3-eth.html#sendtransaction)
+
 ```js
 let transactionObject = {
   from: fromAccount, // 보내는 주소
@@ -78,11 +79,12 @@ let transactionObject = {
   value: 0.1, // 얼마를 보낼 것인지.(단위는 wei)
   ... // 필요한 경우 나머지 옵션 추가. nonce, gasPrice 등은 web3.js의 다른 함수로 구할 수 있다.
 }
-
 let transaction = web3.eth.sendTransaction(transactionObject);
 ```
+
 3. geth 등을 이용해 해당 노드의 채굴을 일으켜 준다.
-```
+
+```bash
 > miner.start()
 ```
 
@@ -118,5 +120,5 @@ const resultTx = web3.eth.sendSignedTransaction(
         console.log("❗거래중 문제가 발생했습니다.:", error);
       }
     }
-  );
+);
 ```

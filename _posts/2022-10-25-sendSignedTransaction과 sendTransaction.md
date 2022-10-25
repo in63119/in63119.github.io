@@ -1,75 +1,122 @@
 ---
-title: 각 월렛에서 소수점 잔액은 몇 자리까지 표시할까?
+title: sendSignedTransaction과 sendTransaction
 author: IN
-date: 2022-10-19 11:53:00 +0800
+date: 2022-10-25 13:31:00 +0800
 categories: [Blogging, Blockchain]
-tags: wallet
+tags: web3.js
 pin: true
 
 ---
 
-개인 프로젝트로 월렛을 만들면서 계좌의 잔액을 표시할 때 문득 의문이 들었다. 
+**web3.js로 트랜잭션을 보낼 때, 두 가지 함수를 쓸 수 있다.**
 <br />
-'잔액은 소수점의 몇 자리까지 보여줘야할까?'
-<br />
-<br />
-
-## 각 월렛마다 보여주는 잔액표시
-
-  <img src="https://user-images.githubusercontent.com/65399118/196662856-6f607710-af76-44ea-b481-79bc026295c4.png" alt="drawing" width="600"/>
-
-
-현재 내 개인 프로젝트의 Goerli 네트워크 계정의 잔액은 `0.492529598614437 ETH(Goerli)`이다. 
-<br />
-테스트 이더를 받고 이것저것 트랜잭션을 보내다보니 가스비의 단위로인해 현재 **소수 열다섯째자리** 까지 보여주고 있다. 
-<br />
-이 잔액표시를 할 때에 고민이 되었던 것이 '굳이 소수점의 열다섯째까지 보여줄 필요가 있을까??'였다. 
-<br />
-만약, 현금을 거래한다고 했을 시에 사용자에게 보여줘야하는 값은 정확해야 한다고 생각되면서도
-<br />
-사용자 경험 측면에서는 좋지않은 단위인것은 확실하기 때문이다. 
-<br />
-<br />
-그렇다면 다른 웹 월렛들은 소수점의 몇 자리까지 표시할까? 궁금해서 찾아보았다.
+`sendTransaction`과 `sendSignedTransaction`. 이 두 함수는 어떤 차이가 있을까?
 <br />
 <br />
 
-### 1. MetaMask
-
-  <img src="https://user-images.githubusercontent.com/65399118/196952052-216635e6-e08b-4328-a4f2-3588216a6510.png" alt="metamask" width="300"/>
-
-
-같은 계정을 메타마스크에서 불러온 것이다.
+## Web3.js Docs를 통해 두 함수의 차이를 살펴보자.
+Docs에 나와있는 설명을 보면 뚜렷한 하나의 차이를 알아볼 수 있다.
 <br />
-메타마스크에서는 **소수점 넷째자리**까지 보여주고, 다섯째에서 반올림을 해주었다.
-<br />
-확실히 소수점 열 다섯째까지 보여주지 않아도 별 상관이 없었으며, 오히려 깔끔하고 좋았다.
-<br />
-
----
-
-### 2. My Ether Wallet (MEW)
-
-
-  <img src="https://user-images.githubusercontent.com/65399118/196953924-f434bd6e-c356-40b2-888a-ff38fc804f1b.png" alt="mew" width="800"/>
-
-
-마이이더월렛의 경우 메타마스크보다 2자리 더 긴 **소수점 여섯째자리**까지 사용한다.
-
----
-
-### 3. enkrypt
-
-  <img src="https://user-images.githubusercontent.com/65399118/196954628-18da3ffe-5150-499b-907c-a6eecf47e5fa.png" alt="mew" width="800"/>
-
-
-enkrypt 역시 **소수점 여섯째자리**까지 사용한다. 
-
+바로, 함수 실행 시 `서명`의 여부이다.
 <br />
 <br />
+### sendTransaction
+밑에있는 설명을 보면, sendTransaction은 "네트워크에 트랜잭션을 보낸다."라고만 나와있다.
 <br />
-이 외에도 다른 계정의 다른 네트워크를 살펴보아도 각각의 월렛마다 통일 되지않은 여러가지 소수점 자리를 보았다. 
+  <img src="https://user-images.githubusercontent.com/65399118/197683619-a96def06-765d-4690-9377-8344ed97d987.png" alt="sendTrancastion" width="600"/>
 <br />
-지금의 내가 내린 결론은 "소수점에 대한 규칙이 있는 것은 아니며, 사용자 경험을 위해 주로 소수 여섯째자리까지만 사용한다." 이다.
+
+### sendSignedTransaction
+밑에있는 설명을 보면, sendSignedTransaction은 "`web3.eth.accounts.signTransaction`같은 것을 사용하여 이미 서명된 트랜잭션을 보낸다."라고 나와있다.
 <br />
-이 글에 틀린 점이 있다면, 미래의 내가 다시 알려주기 바란다.
+  <img src="https://user-images.githubusercontent.com/65399118/197688920-166e6cc2-1b18-4ff8-8d22-ee6ba4c49a03.png" alt="sendSignedTrancastion" width="600"/>
+<br />
+<br />
+- **sendTransaction**
+   -  트랜잭션 객체를 노드로 보내서 서명.
+   -  실행 조건:
+      - 노드에 보내는(from) 주소가 등록되어 있어야 함. 
+      - 보내는(from) 주소에 락을 풀어야 함.(unlock)
+      - 트랜잭션 실행 후 해당 노드가 채굴(mining)을 하면 최종적으로 완료.
+- **sendSignedTransaction**
+   -  서명한 트랜잭션 객체를 바로 전송.
+   -  실행 조건:
+      - 함수를 실행시킬때 이미 서명(Sign)된 트랜잭션을 보내야 함.
+      - 트랜잭션 객체를 서명하기 위해 `web3.eth.accounts.signTransaction` 같은 함수를 사용할 수 있음.
+- 결론:
+   - 내가 노드를 운영할 것이라면, **sendTransaction**을.
+   - 노드 운영하지 않고 그냥 사용할 거면, **sendSignedTransaction**을 사용하는 것이 편하다.
+
+<br />
+<br />
+
+## **sendTransaction** & **sendSignedTransaction** 예제
+### 트랜잭션 객체 준비
+두 함수 동일하게 트랜잭션 객체(transactionObject)가 필요하다. 다만, `sendSignedTransaction`의 경우 각 데이터마다 `Hex` 형식으로 변환해줘야 한다.
+<br />
+> 트랜잭션 객체 예시
+```js
+let transactionObject = {
+  from: '0x...', // 보내는 주소
+  to: '0x...', // 받는 주소
+  value: 0.1, // 얼마를 보낼 것인지.(단위는 wei)
+  ... // 필요한 경우 나머지 옵션 추가. nonce, gasPrice 등은 web3.js의 다른 함수로 구할 수 있다.
+}
+```
+<br />
+
+### sendTransaction 예제
+1. 보내고자 하는 주소(from)의 잠금을 해채한다. [참고](https://web3js.readthedocs.io/en/v1.8.0/web3-eth-personal.html#unlockaccount)
+```js
+let fromAccount = web3.personal.unlockAccount('0x...`,'123');
+```
+2. 잠금 해체한 주소를 트랜잭션 객체에 집어 넣어서 함수 실행. [참고](https://web3js.readthedocs.io/en/v1.8.0/web3-eth.html#sendtransaction)
+```js
+let transactionObject = {
+  from: fromAccount, // 보내는 주소
+  to: '0x...', // 받는 주소
+  value: 0.1, // 얼마를 보낼 것인지.(단위는 wei)
+  ... // 필요한 경우 나머지 옵션 추가. nonce, gasPrice 등은 web3.js의 다른 함수로 구할 수 있다.
+}
+
+let transaction = web3.eth.sendTransaction(transactionObject);
+```
+3. geth 등을 이용해 해당 노드의 채굴을 일으켜 준다.
+```
+> miner.start()
+```
+
+<br />
+
+### sendSignedTransaction 예제
+1. 트랜잭션 객체를 만들 때 Hex화 시켜줘야 한다.(address는 안해도 됨) [참고](https://web3js.readthedocs.io/en/v1.8.0/web3-utils.html#tohex)
+```js
+let transactionObject = {
+  ...
+  value: web3.utils.toHex(0.1), 
+  nonce: web3.utils.toHex(2)// nonce는 getTransactionCount 함수를 쓰자,
+  ... // 필요한 경우 나머지 옵션 추가. nonce, gasPrice 등은 web3.js의 다른 함수로 구할 수 있다.
+}
+```
+2. 트랜잭션 객체를 Hex화 해줬다면, 그 객체를 서명(Sign)한다.
+```js
+// 서명할 때, 보내는 주소(from)의 개인키(privateKey)가 필요하다.
+const signedTx =web3.eth.accounts.signTransaction(transactionObject, privateKey);
+```
+3. 트랜잭션 객체를 통해 서명된 트랜잭션을 보낸다.
+```js
+const resultTx = web3.eth.sendSignedTransaction(
+    signedTx.rawTransaction,
+    function (error, hash) {
+      if (!error) {
+        console.log(
+          "거래가 성사되었습니다. 해시는: ",
+          hash
+        );
+        return hash;
+      } else {
+        console.log("❗거래중 문제가 발생했습니다.:", error);
+      }
+    }
+  );
+```

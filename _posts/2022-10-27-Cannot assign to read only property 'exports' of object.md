@@ -1,177 +1,90 @@
 ---
-title: caver.js 사용시 webpack 5 호환 문제
+title: Cannot assign to read only property 'exports' of object 이슈
 author: IN
-date: 2022-10-26 13:34:00 +0800
-categories: [Blogging, Blockchain]
-tags: [caver.js, webpack]
+date: 2022-10-27 14:46:00 +0800
+categories: [Blogging, Javascript]
+tags: [ECMAScript, CommonJS]
 pin: true
 ---
 
-**caver.js를 사용하고 `npm build`를 하는 와중에 다음과 같은 에러가 떴다.**
-<br />
-```bash
-BREAKING CHANGE: webpack < 5 used to include polyfills for node.js core modules by default.
-This is no longer the case. Verify if you need this module and configure a polyfill for it.
-
-If you want to include a polyfill, you need to:
-        - add a fallback 'resolve.fallback: { "stream": require.resolve("stream-browserify") }'
-        - install 'stream-browserify'
-If you don't want to include a polyfill, you can use an empty module like this:
-        resolve.fallback: { "stream": false }
-```
-<br />
-해당 에러는 react 버전과 caver.js의 호환성 문제였다. 
-<br />
-react-scripts 버전이 5를 넘을 시, 최신 ECMAscript 환경을 만들어주는 polyfill을 포함하고 있지 않아서 생기는 문제이다.
-<br />
-위에 코드를 보면 polyfill을 포함하기위한 옵션 등을 알려준다.
-<br />
-<br />
-즉, 해당 에러를 해결하기 위해서는 두 가지 방법이 있다.
-<br />
-
-1. 버전이 문제였으니 버전을 맞춘다.
-
-
-2. 에러 코드에 나온대로 `resolve.fallback` 등을 맞춘다.
-
-<br />
-
-## 1. 버전을 맞추는 방법
-caver.js 관련 오류를 확인하는 과정에서 내가 맞춘 것들은 다음과 같다.
-<br />
-<br />
-### Node.js 14 버전
-> caver.js 깃 허브 리드미: Node.js 버전은 12 또는 14로 맞춰야 한다. [참고](https://github.com/klaytn/caver-js#requirements)
-
-<img src="https://user-images.githubusercontent.com/65399118/197941228-628e452a-4923-44fe-951a-6a707e212c79.png" alt="caverReadMe" width="600"/>
-
-<br />
-먼저, nvm을 이용하여 호환가능한 node 버전이 있는지 확인한다.
+**`npm build`를 하는 와중에 다음과 같은 에러가 떴다.**
 <br />
 
 ```bash
-$ nvm ls
+TypeError: Cannot assign to read only property 'exports' of object '#<Object>'
 ```
 <br />
-없으면, 나와있는 버전에 맞춰 설치한다.
+어떠한 모듈 내보내기가 되지 않는다는 말인데, 분명 배포 전 테스트할 때에는 문제가 없었지만 
 <br />
 
-```bash
-$ nvm install 14.16.0
-```
-
-<br />
-설치만으로 버전이 바뀌겠지만, 혹시 모르니 사용하도록 설정해보자.
+배포하기 위해 `npm build`를 하면 이런 에러가 뜬다.
 <br />
 
-```bash
-$ nvm use 14.16.0
-```
-<br />
-
-### react-scripts 4 버전 
-react-scripts는 Create React App에서 사용하는 스크립트 구성이 포함되어있는 라이브러리이다.
-<br />
-해당 라이브러리의 버전을 맞추면 Create React App 역시 맞춰지기 때문에 나는 react-scripts 버전을 맞췄다.
-
-> Create React App을 사용한다면 Create React App 버전을 맞추면 된다.
-
-<br />
-
-package.json에 있는 `react-script`를 찾아서 해당 버전을 `"4.0.2"`로 맞춘다.
-
-<br />
-
-<img src="https://user-images.githubusercontent.com/65399118/197944122-beb6263f-a83c-47a6-b602-53aa86c7a9f2.png" alt="reactScripts" width="300"/>
-
+결론부터 말하자면, 해당 에러는 **ECMAScript와 CommonJS의 `import`와 `export` 문법이 다른 기본적인 문제**였다.(민망...)
 <br />
 <br />
 
-모든 설정이 끝난 후에는 프로젝트 디렉토리에서 `node_modules` 파일을 삭제 후
-npm install로 다시 설치해주자.
+## ECMAScript vs CommonJS
+먼저, ECMAScript와 CommonJS를 알아보자.
 <br />
 
-```bash
-$ npm install
-```
-
+### ECMAScript
+ECMAScript는 **Ecma 인터내셔널에 의해 제정된 ECMA-262 기술 규격에 의해 정의된 범용 스크립트 언어**이다.
 <br />
+우리가 사용하는 Javascript(이하 JS)는 뒤에 script가 붙은 것처럼 이 ECMAScript라는 표준화된 스크립트 프로그래밍 언어 사양을 준수한다.
 <br />
-
-## 2. 누락된 모듈을 설치하여 `webpack.config.js` 설정하기
-버전을 맞추기 싫다면, 누락된 모듈을 설치 후 `webpack.config.js`를 설정해 줄 수 있다.
-
+즉, **ECMAScript가 정의한 기술 규격에 따라 만든 프로그래밍 언어가 바로 JS**이다.
 <br />
 
-### `webpack.config.js` 설정
-<br />
-
-caver.js의 [Trouble shooting and known issues](https://github.com/klaytn/caver-js#using-webpack--5)를 보면
-<br />
-각자의 프로젝트 구성이 다르기 때문에 자신의 상황에 맞게 `webpack.config.js`를 구성 해야한다.
-<br />
-<img src="https://user-images.githubusercontent.com/65399118/197945970-ed15e1db-c4c0-4e94-8f67-fe11a3e07e92.png" alt="trouble" width="600"/>
+> 흔히 들을 수 있는 **ES6문법**이 바로, **ECMA-262 표준의 6버전**이라는 뜻이다.
 
 <br />
 
-처음에 봤던 에러코드에서 필요하다는 모듈을 설치하면 된다.
-
+### CommonJS
+CommonJS는 **JS를 서버사이드로 활용하기 위해 만들어진 표준 프로젝트**이다.
+<br />
+JS는 기본적으로 브라우져가 있어야 사용할 수 있는 스크립트 언어이다.
+<br />
+CommonJS가 없을 떄에는 서버를 JAVA나 Python 등으로 서버를 만들 수 밖에 없었다. 
+<br />
+하지만, JS를 서버사이드로 사용하고 싶은 개발자들이 CommonJS라는 이름의 프로젝트로 만들어낸 것이 바로, **NodeJS**이다.
+<br />
 <br />
 
-```bash
-BREAKING CHANGE: webpack < 5 used to include polyfills for node.js core modules by default.
-This is no longer the case. Verify if you need this module and configure a polyfill for it.
-
-If you want to include a polyfill, you need to:
-        - add a fallback 'resolve.fallback: { "stream": require.resolve("stream-browserify") }'
-        - install 'stream-browserify'
-If you don't want to include a polyfill, you can use an empty module like this:
-        resolve.fallback: { "stream": false }
-        ...
-```
+- ECMAScript
+   - 클라이언트 사이드 언어인 JS에서 사용하는 스크립트 언어 표준.
+- CommonJS
+   - 서버 사이드 언어인 NodeJS에서 사용하는 언어 표준 스크립트.
 
 <br />
-난 다음과 같은 모듈을 설치 했다.
-
 <br />
 
-```bash
-$ npm install stream-browserify
-
-$ npm install crypto-browserify
-
-$ npm install stream-http
-
-$ npm install https-browserify
-
-$ npm install os
-```
-
+## Cannot assign to read only property 'exports' of object 해결
+ECMAScript와 CommonJS는 목적성이 다른 언어들이기 때문에 문법이 상이한 부분이 있다.
+<br />
+해당 에러는 `import`와 `export`의 문법을 서로 달리 사용해야 한다.
 <br />
 
-모듈을 설치 후 `webpack.config.js` 파일 안에 설정을 추가해준다.
-
+### ECMAScript(Client)
+클라이언트쪽 문법은 다음과 같이 해야한다.
 <br />
 
 ```js
-module.exports = {
-    ...
-    resolve: {
-        fallback: {
-            fs: false,
-            net: false,
-            stream: require.resolve('stream-browserify'),
-            crypto: require.resolve('crypto-browserify'),
-            http: require.resolve('stream-http'),
-            https: require.resolve('https-browserify'),
-            os: require.resolve('os-browserify/browser'),
-            ...
-        },
-    },
-}
+// import
+import 000 from 000;
+
+// export
+export default 000;
 ```
 
+### CommonJS(Server)
+서버쪽 문법은 다음과 같이 해야한다.
 <br />
 
-> `webpack.config.js`은 `package.json`이 있는 위치에 있어야 한다.
+```js
+// import
+const 000 require('000');
+
+// export
+module.export = ...
+```

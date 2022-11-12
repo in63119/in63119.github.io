@@ -1,5 +1,5 @@
 ---
-title: ERC-20 & ERC-721 소스 코드 차이
+title: ERC-20과 ERC-721 소스 코드 차이
 author: IN
 date: 2022-11-11 16:32:00 +0800
 categories: [Blogging, Blockchain]
@@ -7,7 +7,7 @@ tags: [Contract, Erc-20, Erc-721]
 pin: true
 ---
 
-Erc-20과 Erc-721은 대체 가능한지로 구분이 되는데, 소스코드 단에서는 같은 명칭의 함수를 사용한다. 
+Erc-20과 Erc-721은 대체 가능한지로 구분이 되는데, 소스코드 단에서는 같은 명칭의 함수를 사용한다.
 <br />
 코드 단에서의 차이는 무엇이 있을까?
 
@@ -17,15 +17,16 @@ Erc-20과 Erc-721은 대체 가능한지로 구분이 되는데, 소스코드 �
 <br />
 
 > 참고
-> 
+>
 > [openZeppelin ERC-20 Github](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20.sol)
-> 
+>
 > [openZeppelin ERC-721 Github](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/ERC721.sol)
 
 <br />
 
 ## Function Mint
-먼저 민트 함수를 살펴보자. 
+
+먼저 민트 함수를 살펴보자.
 <br />
 
 같은 기능이지만 코드를 보면 **입력 값** 과 **로직**이 다르다.
@@ -38,6 +39,7 @@ Erc-20과 Erc-721은 대체 가능한지로 구분이 되는데, 소스코드 �
   - 로직 : 토큰ID의 소유자를 수신 주소로 변경 & 전송
 
 ### ERC-20
+
 ```go
 function _mint(address account, uint256 amount) internal virtual {
     require(account != address(0), "ERC20: mint to the zero address");
@@ -56,6 +58,7 @@ function _mint(address account, uint256 amount) internal virtual {
 ```
 
 ### ERC-721
+
 ```go
 function _mint(address to, uint256 tokenId) internal virtual {
     require(to != address(0), "ERC721: mint to the zero address");
@@ -86,6 +89,7 @@ function _mint(address to, uint256 tokenId) internal virtual {
 <br />
 
 ## Function Transfer
+
 - ERC-20
   - 입력 값 : 보내는 주소(from), 받는 주소(to), 보내는 양(amount)
   - 로직 : 보내는 주소에서 받는 주소로 보내는 양 만큼 전송
@@ -96,6 +100,7 @@ function _mint(address to, uint256 tokenId) internal virtual {
 <br />
 
 ### ERC-20
+
 ```go
 function _transfer(
     address from,
@@ -123,6 +128,7 @@ function _transfer(
 ```
 
 ### ERC-721
+
 ```go
 function _transfer(
     address from,
@@ -161,6 +167,7 @@ function _transfer(
 <br />
 
 ## Function Burn
+
 - ERC-20
   - 입력 값 : 주소(account), 소각할 양(amount)
   - 로직 : 주소에서 소각할 양 만큼 소각
@@ -168,10 +175,10 @@ function _transfer(
   - 입력 값 : 토큰ID(tokenId)
   - 로직 : 소유자에 대한 권한처리 & 토큰ID의 소유자 정보 삭제 그리고 토큰 소각
 
-
 <br />
 
 ### ERC-20
+
 ```go
 function _burn(address account, uint256 amount) internal virtual {
     require(account != address(0), "ERC20: burn from the zero address");
@@ -193,6 +200,7 @@ function _burn(address account, uint256 amount) internal virtual {
 ```
 
 ### ERC-721
+
 ```go
 function _burn(uint256 tokenId) internal virtual {
     address owner = ERC721.ownerOf(tokenId);
@@ -225,5 +233,3 @@ function _burn(uint256 tokenId) internal virtual {
 중요한 것은 ERC-20에서는 양(amount)가 중요하고, ERC-721에는 토큰ID(tokenId)가 중요하다.
 <br />
 이것을 보면 '대체가 가능'한 것과 '대체가 불가능'한 토큰의 차이를 확인할 수 있다.
-
-

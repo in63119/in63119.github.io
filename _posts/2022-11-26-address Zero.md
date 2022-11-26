@@ -1,5 +1,5 @@
 ---
-title: address(0) 쓰임새
+title: 여러 개발자들에게 물어본 address(0) 쓰임새
 author: IN
 date: 2022-11-26 15:32:00 +0800
 categories: [Blogging, Blockchain]

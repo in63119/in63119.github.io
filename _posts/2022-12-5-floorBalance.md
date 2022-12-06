@@ -77,7 +77,7 @@ export async function getBalance(address) {
   let decimal;
   let sliceIndex = 0;
   
-  // convertBalance를 만자기 쉽게 배열로 만들어준다.
+  // convertBalance를 만지기 쉽게 배열로 만들어준다.
   const arrayBalance = convertBalance.split("");
 
   // 소수점(".")이 몇 번 인덱스인지 찾는다.

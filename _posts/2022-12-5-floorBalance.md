@@ -54,7 +54,7 @@ export async function getBalance(address) {
 
 <br />
 
-## 소수점 째자리까지 표기하기
+## 소수점 넷째자리까지 표기하기
 이제 다음과 같이 잔액을 네째자리 까지만 보여주는 코드로 수정해보자.
 
 <br />

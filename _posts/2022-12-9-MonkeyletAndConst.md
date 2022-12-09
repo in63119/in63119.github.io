@@ -59,16 +59,11 @@ pin: true
 <br />
 
 - config에서 데이터는 잘 들어오나?
-
-  - :white_check_mark: 잘 들어옴.
-
+  - 잘 들어옴.
 - browser 단에서는 rpcURL이 잘 들어오나?
-
-  - :x: 들어오지 않음.
-
+  - 들어오지 않음.
 - 그렇다면, Provider를 부르는 함수에서는 rpcURL 데이터가 무엇으로 나오나?
-
-  - :white_check_mark: `undefined`로 들어옴.
+  - `undefined`로 들어옴.
 
 <br />
 

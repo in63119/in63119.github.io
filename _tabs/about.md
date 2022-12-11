@@ -21,7 +21,3 @@ in63119@gmail.com
 ### Previous Blog
 
 https://velog.io/@in63119
-
-### Instagram
-
-https://www.instagram.com/_coldbrew_lover/

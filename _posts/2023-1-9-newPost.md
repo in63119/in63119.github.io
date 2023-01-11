@@ -1,0 +1,80 @@
+---
+title: 새로운 포스트
+author: IN
+date: 2023-1-9 13:14:00 +0800
+categories: [Blogging, Javascript]
+tags: [Javascript, dotenv]
+pin: true
+---
+
+저번 포스트에서 상위 디렉토리에서 사용하는 것으로 해결했지만, 이번엔 하위 디렉토리에서도 환경변수를 사용하고 싶었다.
+
+<br />
+
+> 지난 포스트 : [let과 const 그리고 할당](https://in63119.github.io/posts/MonkeyletAndConst/)
+
+<br />
+<br />
+
+## 배경
+
+`.env` 환경변수를 다른 하위 디렉토리에서 꺼내어 사용하고 싶었다.
+<br />
+내가 사용한 변수는 다음과 같다.
+<br />
+
+<img width="300" alt="envExample" src="https://user-images.githubusercontent.com/65399118/211238351-64d6a7d3-9cf2-471a-95f2-ff6147bae688.png">
+
+<br />
+<br />
+
+## 이슈
+
+<img width="200" alt="스크린샷 2022-12-09 오후 1 30 33" src="https://user-images.githubusercontent.com/65399118/211238541-a46f4852-8d85-46ab-8aa5-08267c910db3.png">
+
+<br />
+
+`.env`의 하위 디렉토리인 `setContract/minting.js` 에서 `process.env.000`변수를 불러오니 `undefined`가 떴다.
+
+<br />
+
+<img width="400" alt="스크린샷 2022-12-09 오후 1 30 33" src="https://user-images.githubusercontent.com/65399118/211238774-1cf4dd68-ad5e-4e78-bdec-9a1069ee908a.png">
+
+<br />
+
+<img width="400" alt="스크린샷 2022-12-09 오후 1 30 33" src="https://user-images.githubusercontent.com/65399118/211238966-c74e84ab-a8f9-4b23-bb70-e80f40a774c9.png">
+
+<br />
+<br />
+
+### 해결과정
+
+상위 디렉토리에서는 잘 불러지기 떄문에 경로가 제대로 불러지지 않는다고 생각했고,
+
+<br />
+
+NodeJS의 `path`모듈을 이용하여 디렉토리 경로를 정확히 표시하였다.
+
+<br />
+
+<img width="500" alt="스크린샷 2022-12-09 오후 1 30 33" src="https://user-images.githubusercontent.com/65399118/211239632-1e686796-770e-42ec-9bbc-1c403d34c32a.png">
+
+<br />
+<br />
+
+## 결과
+
+드디어 하위 디렉토리에서도 환경변수를 불러올 수 있게 되었다.
+
+<br />
+
+<img width="400" alt="스크린샷 2022-12-09 오후 1 30 33" src="https://user-images.githubusercontent.com/65399118/211239295-f23bab5e-8eac-4690-b086-3e093362b3ee.png">
+
+<br />
+
+### 느낀점
+
+저번 포스트는 반쪽짜리 해결이었기 때문에 아쉬움이 남았었다.
+<br />
+앞으로도 더 좋은 방법이 무엇이 있을까 고민하는 개발자가 되고 싶다.
+<br />

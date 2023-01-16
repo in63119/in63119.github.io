@@ -1,7 +1,7 @@
 ---
 title: React-native run 시킬 때 지정 디바이스로 실행시키는 방법(기본)
 author: IN
-date: 2023-1-9 13:14:00 +0800
+date: 2023-1-16 10:57:00 +0800
 categories: [Blogging, React-native]
 tags: [React-native, Simulator]
 pin: true

@@ -39,7 +39,7 @@ pin: true
 
 <br />
 
-사용 가능한 시뮬레이터 디바이스 버전 리스트에서 `udid`를 가져와서 버전을 지정하여 런 시키는 방법으로 해결했다.
+사용 가능한 시뮬레이터 디바이스 버전 리스트에서 `디바이스 id`를 가져와서 버전을 지정하여 런 시키는 방법으로 해결했다.
 
 <br />
 
@@ -51,7 +51,7 @@ pin: true
 
 <br />
 
-`react-native run-ios --udid (udid)`실행 
+`react-native run-ios --udid (디바이스id)`실행 
 > 나는 `(iPhone 14)006B56E9-1BE3-43F4-8345-5BCCCA1CF9AA`을 가져왔다.
 
 <br />

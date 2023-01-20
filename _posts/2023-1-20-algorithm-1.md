@@ -1,5 +1,5 @@
 ---
-title: 알고리즘-개인정보 수집 유효기간
+title: [algorithm]개인정보 수집 유효기간
 author: IN
 date: 2023-1-20 21:24:00 +0800
 categories: [Blogging, Algorithm]

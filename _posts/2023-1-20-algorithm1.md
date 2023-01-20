@@ -1,5 +1,5 @@
 ---
-title: Algorithm-개인정보 수집 유효기간
+title: 알고리즘-개인정보 수집 유효기간
 author: IN
 date: 2023-1-20 21:24:00 +0800
 categories: [Blogging, Algorithm]
@@ -7,74 +7,133 @@ tags: [Javascript, Algorithm]
 pin: true
 ---
 
-## 배경
+## 문제
+고객의 약관 동의를 얻어서 수집된 1~n번으로 분류되는 개인정보 n개가 있습니다. 약관 종류는 여러 가지 있으며 각 약관마다 개인정보 보관 유효기간이 정해져 있습니다. 당신은 각 개인정보가 어떤 약관으로 수집됐는지 알고 있습니다. 수집된 개인정보는 유효기간 전까지만 보관 가능하며, 유효기간이 지났다면 반드시 파기해야 합니다.
+<br />
+<br />
+예를 들어, A라는 약관의 유효기간이 12 달이고, 2021년 1월 5일에 수집된 개인정보가 A약관으로 수집되었다면 해당 개인정보는 2022년 1월 4일까지 보관 가능하며 2022년 1월 5일부터 파기해야 할 개인정보입니다. 
+<br />
+당신은 오늘 날짜로 파기해야 할 개인정보 번호들을 구하려 합니다.
+<br />
+<br />
+모든 달은 28일까지 있다고 가정합니다.
+<br />
+<br />
+<br />
+다음은 오늘 날짜가 `2022.05.19`일 때의 예시입니다.
+<br />
 
-리액트 네이티브를 이용하여 개발할 때 ios simulator를 실행시켜서 디바이스에서의 뷰를 확인하곤 한다.
+| 약관 종류 | 유효기간 |
+|-----------|----------|
+| A         | 6 달     |
+| B         | 12 달    |
+| C         | 3 달     |
 
 <br />
 
-<img width="300" alt="simulator" src="https://user-images.githubusercontent.com/65399118/212580866-1d28d3f4-a6a0-4625-aec2-204bd7f310b4.png">
+| 번호 | 개인정보 수집 일자 | 약관 종류 |
+|------|--------------------|-----------|
+| 1    | 2021.05.02         | A         |
+| 2    | 2021.07.01         | B         |
+| 3    | 2022.02.19         | C         |
+| 4    | 2022.02.20         | C         |
+
+<br />
+
+- 첫 번째 개인정보는 A약관에 의해 2021년 11월 1일까지 보관 가능하며, 유효기간이 지났으므로 파기해야 할 개인정보입니다.
+- 두 번째 개인정보는 B약관에 의해 2022년 6월 28일까지 보관 가능하며, 유효기간이 지나지 않았으므로 아직 보관 가능합니다.
+- 세 번째 개인정보는 C약관에 의해 2022년 5월 18일까지 보관 가능하며, 유효기간이 지났으므로 파기해야 할 개인정보입니다.
+- 네 번째 개인정보는 C약관에 의해 2022년 5월 19일까지 보관 가능하며, 유효기간이 지나지 않았으므로 아직 보관 가능합니다.
+
+<br />
+
+따라서 파기해야 할 개인정보 번호는 [1, 3]입니다.
+
+오늘 날짜를 의미하는 문자열 `today`, 약관의 유효기간을 담은 1차원 문자열 배열 `terms`와 수집된 개인정보의 정보를 담은 1차원 문자열 배열 `privacies`가 매개변수로 주어집니다. 이때 파기해야 할 개인정보의 번호를 오름차순으로 1차원 정수 배열에 담아 return 하도록 solution 함수를 완성해 주세요.
 
 <br />
 <br />
 
-## 이슈
+## 입출력 예
 
-프로젝트 단에서 `react-native run-ios`를 통해서 simulator를 실행시키려면 `프로젝트의 설정`과 `Xcode의 디바이스의 버전`을 맞춰야 하는 등의 번거로움이 발생한다.
-
-<br />
-
-<img width="400" alt="스크린샷 2022-12-09 오후 1 30 33" src="https://user-images.githubusercontent.com/65399118/212581102-edf1f400-e374-4e07-955a-19c35070cf1e.png">
-
-<br />
-
-> Xcode로 지정된 디바이스는 `iPhone 13`이 아니라는 에러.
+|   today         |   terms                   |   privacies                                                                         |   result     |
+|-----------------|---------------------------|-------------------------------------------------------------------------------------|--------------|
+|   "2022.05.19"  |   ["A 6", "B 12", "C 3"]  |   ["2021.05.02 A", "2021.07.01 B", "2022.02.19 C", "2022.02.20 C"]                  |   [1, 3]     |
+|   "2020.01.01"  |   ["Z 3", "D 5"]          |   ["2019.01.01 D", "2019.11.15 Z", "2019.08.02 D", "2019.07.01 D", "2018.12.28 Z"]  |   [1, 4, 5]  |
 
 <br />
 <br />
 
-### 해결과정
+## 내 코드
 
-> [참고 레퍼런스](https://medium.com/xcblog/simctl-control-ios-simulators-from-command-line-78b9006a20dc)
+```js
+function solution(today, terms, privacies) {
+    let answer = [];
+    let count = 1;
+    
+    // 개인 정보 수집일자(privacies) + 유효기간(terms) < today = true
+    // 날짜의 연,월,일을 따로 분리해서 계산하는 
+    function calcDate(term, date) {
+        term = Number(term);
+        let todayDate = today;
+        
+        todayDate = todayDate.split('.');
+        let todayYy = Number(todayDate[0]);
+        let todayMm = Number(todayDate[1]);
+        let todayDd = Number(todayDate[2]);
+        
+        date = date.split('.');
+        let termYy = Number(date[0]);
+        let termMm = Number(date[1]);
+        let termDd = Number(date[2]);
+        
+        
+        // 월수가 12월이 넘어가면 
+        if (termMm + term > 12) {
+            termYy = termYy + 1;
+            termMm = termMm + term - 12;
+        }
+        
+        termMm = termMm + term;
+        console.log(`계산된 값은 : ${termYy}.${termMm}.${termDd}`);
+        
+        if (termYy === todayYy && termMm > todayMm) {
+            return false;
+        } 
+        if (termYy === todayYy && termMm === todayMm && termDd > todayDd) {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    
+    for (let i = 0; i < privacies.length; i++) {
+        for (let k = 0; k < terms.length; k++) {
+            let term = terms[k].split(' ')[1];
+            let termType = terms[k].split(' ')[0];
+            let privacieDate = privacies[i].split(' ')[0];
+            let privacieType = privacies[i].split(' ')[1];
+            
+            // 약관의 타입과 개인의 약관 타입이 맞으면 calcDate 실행
+            if (termType === privacieType) {
+                if(calcDate(term, privacieDate)) {
+                    // calcDate가 true면 privacies의 순서를 리턴(i를 리턴하면 되는 것인데...)
+                    answer.push(count);
+                }
+            }
+        }
+        
+        count++;
+    }
+    
+    return answer;
+}
 
-<br />
-
-사용 가능한 시뮬레이터 디바이스 버전 리스트에서 `디바이스 id`를 가져와서 버전을 지정하여 런 시키는 방법으로 해결했다.
-
-<br />
-
-`xcrun simctl list`로 시뮬레이터 버전 리스트 가져온다.
-
-<br />
-
-<img width="400" alt="스크린샷 2022-12-09 오후 1 30" src="https://user-images.githubusercontent.com/65399118/212581606-8c55196f-6a31-41bb-8e1b-1dda4627d6cf.png">
-
-<br />
-
-`react-native run-ios --udid (디바이스id)`실행
-
-> 나는 `(iPhone 14)006B56E9-1BE3-43F4-8345-5BCCCA1CF9AA`을 가져왔다.
-
-<br />
-
-<img width="700" alt="스크린샷 2022-12-09 오후 1 30" src="https://user-images.githubusercontent.com/65399118/212582444-014dba20-fc33-4f38-90ec-3696236d53a3.png">
+```
 
 <br />
 <br />
 
 ## 결과
-
-성공적으로 실행시킬 수 있게 되었다.
-
-<br />
-
-<img width="500" alt="스크린샷 2022-12-09 오후 1 30 33" src="https://user-images.githubusercontent.com/65399118/212582547-9cbf4473-f01d-4b9e-b0f3-d29f369dae66.png">
-
-<br />
-
-### 느낀점
-
-처음엔 Xcode 설정만 만지작 했었는데, 간단히 해결이 되어 버렸다.
-<br />
-개발엔 답이 없다.
-<br />
+<img width="792" alt="스크린샷 2023-01-20 오후 9 05 23" src="https://user-images.githubusercontent.com/65399118/213699419-a76c98e9-bee4-4f0f-9872-6d212317d6fb.png">

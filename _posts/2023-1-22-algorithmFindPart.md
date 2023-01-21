@@ -1,7 +1,7 @@
 ---
 title: Algorithm - 크기가 작은 부분 문자열
 author: IN
-date: 2023-1-22 1:24:00 +0800
+date: 2023-1-22 1:01:00 +0800
 categories: [Blogging, Algorithm]
 tags: [Javascript, Algorithm]
 pin: true
@@ -14,7 +14,7 @@ pin: true
 예를 들어, t="3141592"이고 p="271" 인 경우, t의 길이가 3인 부분 문자열은 314, 141, 415, 159, 592입니다. 이 문자열이 나타내는 수 중 271보다 작거나 같은 수는 141, 159 2개 입니다.
 <br />
 <br />
-
+ 
 
 ## 입출력 예
 

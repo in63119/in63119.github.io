@@ -1,5 +1,5 @@
 ---
-title: 알고리즘 - 개인정보 수집 유효기간
+title: Algorithm - 개인정보 수집 유효기간
 author: IN
 date: 2023-1-20 21:24:00 +0800
 categories: [Blogging, Algorithm]
@@ -71,8 +71,6 @@ function solution(today, terms, privacies) {
     let answer = [];
     let count = 1;
     
-    // 개인 정보 수집일자(privacies) + 유효기간(terms) < today = true
-    // 날짜의 연,월,일을 따로 분리해서 계산하는 
     function calcDate(term, date) {
         term = Number(term);
         let todayDate = today;
@@ -85,26 +83,28 @@ function solution(today, terms, privacies) {
         date = date.split('.');
         let termYy = Number(date[0]);
         let termMm = Number(date[1]);
-        let termDd = Number(date[2]);
-        
+        let termDd = Number(date[2]);  
         
         // 월수가 12월이 넘어가면 
         if (termMm + term > 12) {
             termYy = termYy + 1;
             termMm = termMm + term - 12;
+        } else {
+            termMm = termMm + term;
         }
         
-        termMm = termMm + term;
-        console.log(`계산된 값은 : ${termYy}.${termMm}.${termDd}`);
+        // 일자별로 계산
+        todayYy = todayYy * 28 * 12;
+        todayMm = todayMm * 28;
+        termYy = termYy * 28 * 12;
+        termMm = termMm * 28;
         
-        if (termYy === todayYy && termMm > todayMm) {
+        // 계산한 값이 today가 높으면 파기(false). 아니면 보관(true).
+        if (todayYy + todayMm + todayDd >= termYy + termMm + termDd) {
             return false;
-        } 
-        if (termYy === todayYy && termMm === todayMm && termDd > todayDd) {
-            return false;
+        } else {
+            return true;
         }
-        
-        return true;
     }
     
     
@@ -115,10 +115,9 @@ function solution(today, terms, privacies) {
             let privacieDate = privacies[i].split(' ')[0];
             let privacieType = privacies[i].split(' ')[1];
             
-            // 약관의 타입과 개인의 약관 타입이 맞으면 calcDate 실행
             if (termType === privacieType) {
-                if(calcDate(term, privacieDate)) {
-                    // calcDate가 true면 privacies의 순서를 리턴(i를 리턴하면 되는 것인데...)
+                // 파기해야(false) 하는 값만 담는다.
+                if (!calcDate(term, privacieDate)) {
                     answer.push(count);
                 }
             }
@@ -136,5 +135,34 @@ function solution(today, terms, privacies) {
 <br />
 
 ## 결과
-<img width="792" alt="스크린샷 2023-01-20 오후 9 05 23" src="https://user-images.githubusercontent.com/65399118/213699419-a76c98e9-bee4-4f0f-9872-6d212317d6fb.png">
+<img width="400" alt="스크린샷 2023-01-20 오후 9 05 23" src="https://user-images.githubusercontent.com/65399118/213866226-f1e9b61d-6551-4e06-8f7d-65256b3e2a7e.png">
 
+<br />
+<br />
+
+## Develop
+다른 사람의 풀이를 보면 **split을 했을 때 바로 분할하여 변수에 저장**하는 것과
+<br />
+**이중반복문이 아닌 forEach에 두 매개변수를 이용**한 부분이 나의 코드보다 훨씬 더 간결하고, 효율적이었다.
+
+<br />
+
+```js
+function solution(today, terms, privacies) {
+  var answer = [];
+  var [year, month, date] = today.split(".").map(Number);
+  var todates = year * 12 * 28 + month * 28 + date;
+  var t = {};
+  terms.forEach((e) => {
+    let [a, b] = e.split(" ");
+    t[a] = Number(b);
+  });
+  privacies.forEach((e, i) => {
+    var [day, term] = e.split(" ");
+    day = day.split(".").map(Number);
+    var dates = day[0] * 12 * 28 + day[1] * 28 + day[2] + t[term] * 28;
+    if (dates <= todates) answer.push(i + 1);
+  });
+  return answer;
+}
+```

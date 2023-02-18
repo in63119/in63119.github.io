@@ -3,7 +3,7 @@ title: Algorithm - Linked List
 author: IN
 date: 2023-2-18 22:10:00 +0800
 categories: [Blogging, Algorithm]
-tags: [Linked List, Javascript, Data Structure, Algorithm]
+tags: [Linked-List, Javascript, Data-Structure, Algorithm]
 pin: true
 ---
 

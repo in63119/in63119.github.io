@@ -28,7 +28,7 @@ modifier onlyOwner() {
 
 ```go
 modifier checkZero() {
-  require(msg.sender != address(0), "Error : _contributor address is Zero.");
+  require(msg.sender != address(0), "Error : Msg.sender address is Zero.");
   _;
 }
 ```

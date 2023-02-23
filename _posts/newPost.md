@@ -1,5 +1,5 @@
 ---
-title: Algorithm - Linked List
+title: Upgradeable Contract
 author: IN
 date: 2023-2-18 22:10:00 +0800
 categories: [Blogging, Algorithm]

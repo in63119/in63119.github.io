@@ -1,7 +1,7 @@
 ---
 title: Algorithm - 평행
 author: IN
-date: 2023-3-3 14:54:00 +0800
+date: 2023-3-5 14:54:00 +0800
 categories: [Blogging, Algorithm]
 tags: [Javascript, Algorithm, Parallel]
 pin: true

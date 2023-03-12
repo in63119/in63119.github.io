@@ -1,5 +1,5 @@
 ---
-title: Algorithm - 분수 덧셈
+title: Algorithm - 개미 군단
 author: IN
 date: 2023-3-12 22:56:00 +0800
 categories: [Blogging, Algorithm]
@@ -9,93 +9,71 @@ pin: true
 
 ## 문제
 
-첫 번째 분수의 분자와 분모를 뜻하는 numer1, denom1, 두 번째 분수의 분자와 분모를 뜻하는 numer2, denom2가 매개변수로 주어집니다.
-
-두 분수를 더한 값을 기약 분수로 나타냈을 때 분자와 분모를 순서대로 담은 배열을 return 하도록 solution 함수를 완성해보세요.
+개미 군단이 사냥을 나가려고 합니다. 개미군단은 사냥감의 체력에 딱 맞는 병력을 데리고 나가려고 합니다. 
+<br />
+장군개미는 5의 공격력을, 병정개미는 3의 공격력을 일개미는 1의 공격력을 가지고 있습니다. 예를 들어 체력 23의 여치를 사냥하려고 할 때, 일개미 23마리를 데리고 가도 되지만, 장군개미 네 마리와 병정개미 한 마리를 데리고 간다면 더 적은 병력으로 사냥할 수 있습니다. 
+<br />
+사냥감의 체력 hp가 매개변수로 주어질 때, 사냥감의 체력에 딱 맞게 최소한의 병력을 구성하려면 몇 마리의 개미가 필요한지를 return하도록 solution 함수를 완성해주세요.
 
 <br />
 
 ## 입출력 예
 
-| numer1 | denom1 | numer2 | denom2 | result  |
-| ------ | ------ | ------ | ------ | ------- |
-| 1      | 2      | 3      | 4      | [5, 4]  |
-| 9      | 2      | 1      | 3      | [29, 6] |
+| hp | result | 
+| ------ | ------ | 
+| 23      | 5      | 
+| 24      | 6      | 
+| 999      | 201      | 
 
 <br />
 
 ## 풀이
-
-분수의 덧셈을 손으로 풀면 쉬운데, 코딩으로 푸는것이 어렵다고 느꼈던 문제이다.
+주말동안 재귀함수를 공부하고 프로그래머스에 적용해보았다.
 <br />
-분모의 계산부터 하여 곱해야 하는 값을 `cost`에 넣어 계산하였다.
-
+근래 [크립토좀비](https://github.com/in63119/cryptoZombie)를 공부하면서 나만의 web3 게임을 만들어볼까 생각중이었는데,
 <br />
-
-문제는 `약분`이었다.
-
-> **약분** :
-> 수학에서 분수의 분자와 분모를 그의 공약수로 나눠서 간단하게 만드는 것
+비슷한 느낌이라 재밌게 풀었다.
 
 <br />
 
-![스크린샷 2023-03-09 오후 9 34 57](https://user-images.githubusercontent.com/65399118/224024726-174e1c58-32ca-4ee9-bf41-126ee76bcad0.png)
+이번 문제를 재귀가 아닌 다른 방식으로 풀면, `몫(ex. Math.floor(hp / ant))`과 `나머지(ex. hp % ant)`를 구해서 
+<br />
+풀어야 될 것 같은데, 게임적인 느낌이 나도록 재귀함수인 `attack`을 만들어보았다.
 
 <br />
-
-아무리 코드 실행을 하면 문제가 없었는데... 채점하면 틀린 답으로 나와서 검색을 해보니 `공약수`로 나누는 `약분`을 해줘야 한다는 것을 찾았다.
 
 ## 내 코드
 
 ```js
-function solution(numer1, denom1, numer2, denom2) {
-  var answer = [];
-  let cost = 0;
-  let subCost = 0;
-
-  if (denom1 % denom2 === 0) {
-    cost = denom1 / denom2;
-    denom2 = denom2 * cost;
-    answer = [numer1 + numer2 * cost, denom2];
-  } else if (denom2 % denom1 === 0) {
-    cost = denom2 / denom1;
-    denom1 = denom1 * cost;
-    answer = [numer1 * cost + numer2, denom1];
-  } else if (denom1 === denom2) {
-    answer = [numer1 + numer2, denom2];
-  } else {
-    cost = denom1;
-    subCost = denom2;
-    numer1 = numer1 * subCost;
-    numer2 = numer2 * cost;
-    denom1 = denom1 * subCost;
-    answer = [numer1 + numer2, denom1];
-  }
-
-  let small = 0;
-  let count = 0;
-
-  if (denom2 > denom1) {
-    small = denom1;
-  } else {
-    small = denom2;
-  }
-
-  // 약분
-  for (let i = 1; i <= small; i++) {
-    if (answer[0] % i === 0 && answer[1] % i === 0) {
-      count = i;
+function solution(hp) {
+    var answer = 0;
+    
+    // 각 유닛의 공격력
+    const general = 5;
+    const knight = 3;
+    const normal = 1;
+    
+    // 몬스터의 hp가 공격력보다 낮을 때까지 공격
+    // 일개미가 1이기 때문에 재귀 탈출 가능
+    const attack = (unit) => {
+        if (hp < unit) {
+            return hp;
+        }
+        
+        hp = hp - unit;
+        answer++;
+        
+        return attack(unit);
     }
-  }
-
-  if (count <= 1) {
-    count = 1;
-  }
-
-  answer[0] = answer[0] / count;
-  answer[1] = answer[1] / count;
-
-  return answer;
+    
+    // 장군이 먼저 공격
+    attack(general);
+    // 병정개미 그 다음에 공격
+    attack(knight);
+    // 일개미가 그 다음에 공격
+    attack(normal);
+    
+    return answer;
 }
 ```
 
@@ -104,7 +82,7 @@ function solution(numer1, denom1, numer2, denom2) {
 
 ## 결과
 
-<img width="358" alt="스크린샷 2023-03-05 오후 3 17 01" src="https://user-images.githubusercontent.com/65399118/224025820-984873f6-260b-4702-8b49-642857efb21e.png">
+<img width="450" alt="스크린샷 2023-03-05 오후 3 17 01" src="https://user-images.githubusercontent.com/65399118/224550295-4bad4cf2-bdd4-4274-b059-0dce81ef49be.png">
 
 <br />
 <br />
@@ -112,15 +90,7 @@ function solution(numer1, denom1, numer2, denom2) {
 ## 다른 사람의 풀이
 
 ```js
-function fnGCD(a, b) {
-  return a % b ? fnGCD(b, a % b) : b;
-}
-
-function solution(denum1, num1, denum2, num2) {
-  let denum = denum1 * num2 + denum2 * num1;
-  let num = num1 * num2;
-  let gcd = fnGCD(denum, num); //최대공약수
-
-  return [denum / gcd, num / gcd];
+function solution(hp) {
+    return Math.floor(hp/5)+Math.floor((hp%5)/3)+(hp%5)%3;
 }
 ```

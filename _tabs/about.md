@@ -26,7 +26,7 @@ in63119@gmail.com
 
 ## Career
 
-### 에이락 - 개발 운영팀 / 블록체인 개발
+### 에이락(2023. 01 ~ ) - 개발 운영팀 / 블록체인 개발
 - 에이락 월렛 기능 개선
    - 사용 스택 : ReactNative, Typescript, caver-js, Ethers-js
    - 'NFT 추가하기' 기능 간소화(CA, TokenId -> EOA로 조회 후 지갑에 추가)

@@ -4,9 +4,9 @@ icon: fas fa-info-circle
 order: 4
 ---
 
-## 블록체인 리터러셔(Literacier) | 이인수(IN)
+## 변화를 즐기는 성장형 개발자 | 이인수(IN)
 
-안녕하십니까! NodeJS와 React를 이용한 웹 기반 블록체인 서비스 개발 경험이 있는 블록체인 1년차 개발자 이인수입니다.
+안녕하십니까! NodeJS와 React, Typescript, React-Native를 이용한 웹 & 앱 기반 블록체인 서비스 개발 경험이 있는 블록체인 2년차 개발자 이인수입니다.
 
 <br />
 
@@ -23,3 +23,7 @@ in63119@gmail.com
 ### Mobile
 
 010-6669-4106
+
+## Career
+
+### 코드스테이츠(2021. 04 ~ 2022.10) - Blockchain Engineering Bootcamp / Blockchain Engineer

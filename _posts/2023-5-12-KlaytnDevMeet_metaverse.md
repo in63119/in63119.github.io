@@ -9,6 +9,11 @@ pin: true
 
 <img src="https://github.com/in63119/in63119.github.io/assets/65399118/9d332da1-afe2-4c2a-beba-1d74b732e682" alt="sendSignedTrancastion" width="600"/>
 
+<br />
+
+<img src="https://github.com/in63119/in63119.github.io/assets/65399118/8c40b52a-99bf-43d9-96ef-888c14310a0b" alt="join" width="600"/>
+
+<br />
 
 나는 개인적으로 많은 블록체인 중에서도 클레이튼을 좋아하고, 응원한다.
 <br />
@@ -181,6 +186,17 @@ dNFT는 동적(Dynamic) NFT라는 뜻으로 **스마트 컨트랙트의 논리 �
 <br />
 
 나는 다행히 실무에서 모두 다뤄본적 있었다.
+
+<br />
+
+이 컨트랙트에서 중점적으로 봐야하는 것은 `checkUpkeep` 과 `performUpkeep` 함수이다.
+
+<br />
+
+컨트랙트에 설정한 시간이 지나면 메타데이터를 업데이트 시킬 수 있고, 업데이트되는 메타데이터는 컨트랙트에 저장이 되어있다.
+> 예제에는 두 개의 메타데이터만 사용하지만, 블록에 Uri를 저장하는 함수를 만들어서 사용하면 될 듯하다.
+> <br />
+> 이미 `_setTokenURI` 함수를 사용해서 커스터 마이징하면 좋겠다.
 
 <br />
 
@@ -383,3 +399,49 @@ dNFT는 동적(Dynamic) NFT라는 뜻으로 **스마트 컨트랙트의 논리 �
 <br />
                   
 3. 민팅
+   이제 내 주소에 민팅을 한다. 
+   <br />
+   컨트랙트 자체에 메타데이터가 기입되어있기 때문에 따로 TokenUri를 설정할 필요가 없다.
+   <br />
+   <img src="https://github.com/in63119/in63119.github.io/assets/65399118/4ce92d03-1db3-42cd-a7c0-f34f4b1c4211" alt="mint" width="300"/>
+                  
+4. 메타데이터 변경해보기
+   > [참고](https://metaverse-knowledge-kit.klaytn.foundation/docs/dynamic-nfts/tutorial#interacting-with-deployed-contract-)
+   
+   - `checkUpkeep` 함수를 call하여 `performUpkeep` 함수 실행을 할 수 있는지 확인해야 한다.
+      <br />
+      <img src="https://github.com/in63119/in63119.github.io/assets/65399118/67553196-4e17-410b-9f9b-aef7a2dd1a59" alt="checkUpkeep" width="300"/>
+      <br />
+      인자에는 빈 배열(`[]`)을 넣자.
+                  
+   <br />
+                  
+   - `checkUpkeep` 결과가 `true`가 나오면, `performUpkeep` 함수를 실행시켰다.
+      <br />
+      <img src="https://github.com/in63119/in63119.github.io/assets/65399118/d737bfe0-c375-4455-8698-b346e4b3fa76" alt="performUpkeep" width="300"/>
+      <br />
+      마찬가지로 인자에는 빈 배열(`[]`)을 넣었다.
+      <br />
+      결과로 나오는 Uri가 `bull -> bear` 로 변경되면 성공!
+
+   <br />
+                  
+   
+# 마치며
+여기까지 실습을 마치고,
+<br />
+준비해주신 저녁 도시락을 먹고,
+<br />
+<img src="https://github.com/in63119/in63119.github.io/assets/65399118/c2bb2495-a2b3-40df-9f5f-f929d52bea21" alt="dosirak" width="300"/>
+<br />
+끝 마쳤다. 아주 재미있었다. ㅎㅎ
+   
+<br />
+<br />
+                  
+클레이튼이 여러모로 신경 쓸 것이 많은 시기일 것 같은데도 불구하고, 계속해서 개발자들을 위한 컨퍼런스를 진행해주어서 너무 좋았다.
+                  
+<br />
+                  
+다음 6월 컨퍼런스도 기대가 된다.
+                  

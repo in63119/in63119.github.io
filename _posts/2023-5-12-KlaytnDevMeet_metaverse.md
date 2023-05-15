@@ -1,5 +1,5 @@
 ---
-title: 2023 5월 Klaytn DevMeet 컨퍼런스
+title: 2023 5월 Klaytn DevMeet 컨퍼런스 - 
 author: IN
 date: 2023-5-12 15:32:00 +0800
 categories: [Blogging, Review]
@@ -73,19 +73,313 @@ pin: true
 
 - 탈 중앙성을 확보할 수 있다.
    - 블록체인의 제일 큰 특징인 탈 중앙성(떄에 따라 다르겠지만 ㅎ)을 접목시킬 수 있다는 것은 사용자에게 매력적인 요소이다. 메타버스에 탈중앙화가 된다면 진정한 거버넌스의 실현을 볼 수 있다고 본다.
-- 블록체인 데이터로 메타버스를 구현.
+   - 블록체인 데이터로 메타버스를 구현.
    - 탈 중앙화가 실현되기 위해서는 '불변하는 블록체인 데이터'가 필요하다. 
 - 상호운용성
    - 블록체인은 지갑을 통해 자산 가치 이전 및 소유가 가능하기 떄문에 조금 더 활발한 가상세계를 만들 수 있을 것이다.
-- 오픈소스로 이루어져 있는 블록체인 기술을 이용한 메타버스 기능 구현
+   - 오픈소스로 이루어져 있는 블록체인 기술을 이용한 메타버스 기능 구현할 수 있다.
    - 블록체인의 매력 중 하나는 많은 프로젝트들이 오픈소스로 이루어져 있다는 것이다. 이는 세계관 확장에 있어 더욱 가속화를 이루어줄 것이라 믿는다.
 
 <br />
 <br />
 
 ### Metaverse in Klaytn
-Klaytn은 메타버스 구성을 위해
+Klaytn은 메타버스 구성을 위한 블록체인 기술 제공으로 다음과 같은 역할을 할 수 있다고 한다.
 
-이러한 메타버스에 블록체인 기술을 응용하게 되면 일반적인 가상세계가 아닌 좀 더 특성있는 분야가 된다.ㅎㅘㄱ
-이러한 메타버스에 블록체인 기술을 응용하게 되면 일반적인 가상세계가 아닌 좀 더 특성있는 분야가 된다.
-ㅇㄹ
+- 특징
+   - 안정적인 가스 모델
+   - 커스터 마이징 가능한 블록체인(사이드 체인) => TPS 조절 가능
+   - 기본적으로 빠른 TPS를 통해 인터렉티브한 서비스를 제공할 수 있다.
+
+<br />
+
+- Klaytn 제공
+   - 메타버스 관련 Reference
+      - 여러가지 Use case
+      - Guide
+      - ...
+   -  SDKs
+   -  APIs
+   -  ...
+
+<br />
+
+- 구성
+   - 스마트 컨트랙트
+   - 분산 저장소
+   - 탈 중앙화 오라클
+      - Price Feeds
+      - VRF
+      - External API Calls
+   - Gaming sdk
+   - Service sdk
+      - Bridge Starter Kit
+      - Dex Starter Kit
+      - ...
+   - 개발 도구
+      - Wallet(ex. Kaikas...)
+      - Caver-js
+      - ...
+
+
+기존 클레이튼 개발 도구와 더불어 **메타버스를 위한 기술 서비스**가 추가된 것으로 보인다.
+
+<br />
+
+이번 컨퍼런스에서는 이 많은 기술 중에서도 `Dynamic NFTs`에 대한 소개가 중점적이었다.
+
+<br />
+<br />
+
+## dNFT(Dynamic NFT)
+NFT는 고유한 데이터로 가상의 "고유한 자산" 역할을 해왔다. NFT에서 소유권을 확인할 수 있는 기능으로써 `Token Id, Metadata...`를 예로 들수 있다.
+
+<br />
+
+이 '소유권'이라는 특정은 지금의 NFT 시장을 구축하기도, 새로운 기술로써 사용되기도 한다. 
+> 예를 들어, P2E 게임 서비스를 보면 NFT를 활용한 게임 아이템을 구현하여 현실에서도 가치와 소유권을 인증하는 방식으로 쓰인다.
+
+<br />
+
+메타버스 게임을 서비스들이 늘어나고 있는 추세에 이 NFT를 이용한 게임 아이템은 확실히 매력이 있다.
+
+<br />
+
+그런데, 게임 같은 다이나믹한 환경에서의 불변하는 Metadata는 어찌보면 아쉬울 수 있을 것이다.
+> 개인적인 경험 : 
+> <br />
+> 프로젝트를 위해 기껏 민팅해놨던 NFT의 메타데이터를 변경해야 하는데, 정적인 NFT이기 때문에 메타데이터 변경을 할 수가 없었다. 결국, 다시한번 NFT를 민팅하는 방향으로 프로젝트를 진행했어야 했다.
+
+<br />
+
+이에 대한 해결책으로 dNFT를 사용할 수 있다.
+
+<br />
+
+dNFT는 동적(Dynamic) NFT라는 뜻으로 **스마트 컨트랙트의 논리 조건에 따라 변경될 수 있는 메타데이터**라고 소개한다.
+> **dNFT 작동방식**
+> - dNFT 요청이 스마트 컨트랙트로 전송
+> - 컨트랙트는 블록체인의 온체인 데이터를 쿼리
+> - Oracle에 의존하여 오프체인 데이터에 연결
+> - 두 쿼리 결과에 따라 스마트 컨트랙트가 특정 유형의 미디어를 반환(ex. json)
+> - 미디어는 IPFS에 저장
+
+<br />
+<br />
+
+### Tutorial dNFT 리뷰
+이번 컨퍼런스에서는 현장에서 dNFT를 실습해보는 이벤트를 진행했다.
+> 이 현장 이벤트에서 첫번째로 끝내서 15만원 상당의 하드월렛을 받았다는 것은 안비밀(?)
+> [참초](https://metaverse-knowledge-kit.klaytn.foundation/docs/dynamic-nfts/tutorial)
+
+이번 실습에선 다음의 경험이 있으면 아주 쉽게 따라할 수 있었따.
+- 스마트 컨트랙트 배포를 해본적 있는가?
+- NFT 민팅을 해본적 있는가?
+- Solidity를 사용해본적 있는가?
+- 기타 월렛(ex. Kaikas, Metamask...)을 사용하여 컨트랙트 IDE에 연결할 수 있는가?
+
+<br />
+
+나는 다행히 실무에서 모두 다뤄본적 있었다.
+
+<br />
+
+1. 지갑 준비하기
+먼저 자신이 평소에 많이 사용하는 지갑을 준비한다. (개인적으로 메타마스크를 많이 써서 메타마스크를 가져왔다.)
+
+<br />
+
+2. Klaytn IDE를 이용하여 컨트랙트 배포
+   <details>
+   <summary>컨트랙트 전체 코드</summary>
+   <div markdown="1">
+
+   ```go
+      // SPDX-License-Identifier: GPL-3.0
+
+      pragma solidity ^0.8.0;
+
+      import "@klaytn/contracts/KIP/token/KIP17/KIP17.sol";
+      import "@klaytn/contracts/KIP/token/KIP17/extensions/KIP17Enumerable.sol";
+      import "@klaytn/contracts/KIP/token/KIP17/extensions/KIP17URIStorage.sol";
+      import "@klaytn/contracts/utils/Counters.sol";
+      import "@klaytn/contracts/utils/Strings.sol";
+      import "@klaytn/contracts/access/Ownable.sol";
+
+
+
+      // witnet pricefeed
+
+      import "witnet-solidity-bridge/contracts/interfaces/IWitnetPriceRouter.sol";
+      import "witnet-solidity-bridge/contracts/interfaces/IWitnetPriceFeed.sol";
+
+      contract KdynamicNFT is KIP17, KIP17Enumerable, KIP17URIStorage, Ownable {
+         using Counters for Counters.Counter;
+
+         Counters.Counter private _tokenIdCounter;
+
+         uint public interval; 
+         uint public lastTimeStamp;
+
+         int256 public currentPrice;
+
+         IWitnetPriceRouter public witnetPriceRouter;
+         IWitnetPriceFeed public klayUsdtPrice;
+    
+         // IPFS URIs for the dynamic nft graphics/metadata.
+         // NOTE: These connect to my IPFS Companion node.
+         // You should upload the contents of the /ipfs folder to your own node for development.
+         string bullUrisIpfs = "https://ipfs.io/ipfs/QmdcURmN1kEEtKgnbkVJJ8hrmsSWHpZvLkRgsKKoiWvW9g?filename=simple_bull.json";
+         string bearUrisIpfs = "https://ipfs.io/ipfs/QmbKhBXVWmwrYsTPFYfroR2N7NAekAMxHUVg2CWks7i9qj?filename=simple_bear.json";
+
+         event TokensUpdated(string marketTrend);
+
+         // YOu can pass in 30(seconds) for `updateInterval`
+         constructor(uint updateInterval) KIP17("Klaytn dNFT", "KDNFT") {
+            // Set the keeper update interval
+            interval = updateInterval; 
+            lastTimeStamp = block.timestamp;  //  seconds since unix epoch
+
+            // Baobab Price-feed contract address
+            witnetPriceRouter = IWitnetPriceRouter(0xeD074DA2A76FD2Ca90C1508930b4FB4420e413B0);
+            updateKlayUsdtPriceFeed();
+
+            // gets the current KLAY/USDT price and store it to currentPrice var 
+            (currentPrice ,) = getKlayUsdtPrice();
+         }
+
+       function safeMint(address to) public  {
+           // Current counter value will be the minted token's token ID.
+           uint256 tokenId = _tokenIdCounter.current();
+
+           // Increment it so next time it's correct when we call .current()
+           _tokenIdCounter.increment();
+
+           // Mint the token
+           _safeMint(to, tokenId);
+
+           // Default to a bull NFT
+           string memory defaultUri = bullUrisIpfs;
+           _setTokenURI(tokenId, defaultUri);
+       }
+
+       function checkUpkeep(bytes calldata /* checkData */) external view  returns (bool upkeepNeeded, bytes memory /* performData */ ) {
+            upkeepNeeded = (block.timestamp - lastTimeStamp) > interval;
+
+       }
+
+
+       function performUpkeep(bytes calldata /* performData */ ) external  {
+           //We highly recommend revalidating the upkeep in the performUpkeep function
+           if ((block.timestamp - lastTimeStamp) > interval ) {
+               int latestPrice;
+               lastTimeStamp = block.timestamp;         
+               (latestPrice, ) =  getKlayUsdtPrice();
+
+               if (latestPrice == currentPrice) {
+                   return;
+               }
+
+               if (latestPrice < currentPrice) {
+                   // bear
+                   updateAllTokenUris("bear");
+
+               } else {
+                   // bull
+                   updateAllTokenUris("bull");
+               }
+
+               // update currentPrice
+               currentPrice = latestPrice;
+           } else {
+               return;
+           }
+
+
+       }
+
+       function updateAllTokenUris(string memory trend) internal {
+           if (compareStrings("bear", trend)) {
+               for (uint i = 0; i < _tokenIdCounter.current() ; i++) {
+                   _setTokenURI(i, bearUrisIpfs);
+               } 
+
+           } else {     
+
+               for (uint i = 0; i < _tokenIdCounter.current() ; i++) {
+                   _setTokenURI(i, bullUrisIpfs);
+               }  
+           }   
+           emit TokensUpdated(trend);
+       }
+    
+       function updateKlayUsdtPriceFeed() public {
+           IERC165 _newPriceFeed = witnetPriceRouter.getPriceFeed(bytes4(0x5d9add33));
+           if (address(_newPriceFeed) != address(0)) {
+               klayUsdtPrice = IWitnetPriceFeed(address(_newPriceFeed));
+           }
+       }
+
+       /// Returns the KlAY / USDT price (6 decimals), ultimately provided by the Witnet oracle, and
+       /// the timestamps at which the price was reported back from the Witnet oracle's sidechain 
+       /// to Klaytn Baobab. 
+        function getKlayUsdtPrice() public view returns (int256 _lastPrice, uint256 _lastTimestamp) {
+           (_lastPrice, _lastTimestamp,,) = klayUsdtPrice.lastValue();
+       }
+
+       function compareStrings(string memory a, string memory b) internal pure returns (bool) {
+           return (keccak256(abi.encodePacked((a))) == keccak256(abi.encodePacked((b))));
+       }
+
+       function setInterval(uint256 newInterval) public onlyOwner {
+           interval = newInterval;
+       }
+
+       // The following functions are overrides required by Solidity.
+       function _beforeTokenTransfer(address from, address to, uint256 tokenId)
+           internal
+           override(KIP17, KIP17Enumerable)
+       {
+           super._beforeTokenTransfer(from, to, tokenId);
+       }
+
+       function _burn(uint256 tokenId) internal override(KIP17, KIP17URIStorage) {
+           super._burn(tokenId);
+       }
+
+       function tokenURI(uint256 tokenId)
+           public
+           view
+           override(KIP17, KIP17URIStorage)
+           returns (string memory)
+       {
+           return super.tokenURI(tokenId);
+       }
+
+       function supportsInterface(bytes4 interfaceId)
+           public
+           view
+           override(KIP17, KIP17Enumerable)
+           returns (bool)
+       {
+           return super.supportsInterface(interfaceId);
+       }
+   }
+   ```
+
+   </div>
+   </details>
+
+   <br />
+   
+   위의 코드를 IDE에 복/붙 하여 컨트랙트를 배포한다.
+   <br />
+   이 때, 주석처리 되어있는 곳 때문에 아마 `Warning`이 뜰 것이다. Solidity를 만질 수 있다면, 고쳐보자.
+   <br />
+   배포할 때는 튜토리얼에 나와있는 것처럼 인터벌을 `30` 정도 주었다.
+   <br />
+   ![스크린샷 2023-05-15 오후 3 10 46](https://github.com/in63119/in63119.github.io/assets/65399118/1e765efa-ca08-4a98-8a34-6d4f80ce27ea)
+
+<br />
+                  
+3. 민팅

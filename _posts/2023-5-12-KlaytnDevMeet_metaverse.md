@@ -1,13 +1,14 @@
 ---
-title: 2023 블록체인 밋업 컨퍼런스 다녀온 후기.
+title: 2023 5월 Klaytn DevMeet 컨퍼런스
 author: IN
-date: 2023-4-9 15:32:00 +0800
+date: 2023-5-12 15:32:00 +0800
 categories: [Blogging, Review]
-tags: [BlockChain, Conference, Review, Klaytn]
+tags: [BlockChain, Conference, Review, Klaytn, Metaverse]
 pin: true
 ---
 
-<img src="https://user-images.githubusercontent.com/65399118/230758383-c91da6fe-16d8-4303-97c3-761bc9f0338f.png" alt="sendSignedTrancastion" width="600"/>
+<img src="https://github.com/in63119/in63119.github.io/assets/65399118/9d332da1-afe2-4c2a-beba-1d74b732e682" alt="sendSignedTrancastion" width="600"/>
+
 
 평소 STO에 관심이 있었는데, 마침 관련 컨퍼런스를 진행하기에 신청하여 다녀왔다.
 <br />

@@ -280,6 +280,7 @@ dNFT는 동적(Dynamic) NFT라는 뜻으로 **스마트 컨트랙트의 논리 �
           }
 
           function checkUpkeep(bytes calldata checkData) external view  returns (bool upkeepNeeded, bytes memory performData) {
+               // interval 시간이 지났는지 확인하는 
               upkeepNeeded = (block.timestamp - lastTimeStamp) > interval;
 
               return (upkeepNeeded, checkData);
@@ -292,7 +293,8 @@ dNFT는 동적(Dynamic) NFT라는 뜻으로 **스마트 컨트랙트의 논리 �
                   int latestPrice;
                   lastTimeStamp = block.timestamp;         
                   (latestPrice, ) =  getKlayUsdtPrice();
-
+                  
+                  // latestPrice를 계속해서 업데이트 시켜줌.
                   if(compareStrings(tokenURI(0), bearUrisIpfs)) {
                       latestPrice = currentPrice + 1;
                   } else {
@@ -435,11 +437,34 @@ dNFT는 동적(Dynamic) NFT라는 뜻으로 **스마트 컨트랙트의 논리 �
                   
    
 # 마치며
-여기까지 실습을 마치고,
+여기까지 실습을 마치고, 확인을 받았다. 
 <br />
-준비해주신 저녁 도시락을 먹고,
+                     
+주어지는 상품(15만원 상당의 하드월렛)을 받기위해선 다음의 사항을 확인 받아야 한다.
+                     
 <br />
+  
+확인 사항
+- QR코드로 지급해준 Klaytn DevMeet - Metaverse Knowledge Kit IWTT NFT를 내 주소에 받았는지 확인
+   <br />
+   [IWTT - Metaverse Knowledge Kit](https://klaytnscope.com/tx/0x7247a937b6356f5abcd4d9d8e1d2bbdb8c0c15401be21e9f09debcc007c0131e?tabId=nftTransfer)
+   <br />
+   <img src="https://i.seadn.io/gcs/files/bc1365878b66a242c5e22bee927adc7d.png?auto=format&dpr=1&w=1000" alt="IWTT" width="300"/>
+- Klaytn IDE 로 컨트랙트 결과 확인
+- 6월 DevMeet에 필참한다는 약속 ㅋ
+                     
+<br />
+                     
+이번 행사 참여로 인해 15만원 상당의 지갑을 얻었다는 것보다, 콜린님과 함께하는 블록체인 코어 스터디를 하게되어 너무 기뻤다.
+                     
+<br />
+                     
+컨퍼런스를 마치고, 준비해주신 저녁 도시락을 먹고,
+                     
+<br />
+                     
 <img src="https://github.com/in63119/in63119.github.io/assets/65399118/c2bb2495-a2b3-40df-9f5f-f929d52bea21" alt="dosirak" width="300"/>
+                     
 <br />
 끝 마쳤다. 아주 재미있었다. ㅎㅎ
    

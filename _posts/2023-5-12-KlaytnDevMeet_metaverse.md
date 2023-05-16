@@ -1,5 +1,5 @@
 ---
-title: 2023 5월 Klaytn DevMeet 컨퍼런스 - 
+title: 2023 5월 Klaytn DevMeet 컨퍼런스 - Metaverse Knowledge Kit
 author: IN
 date: 2023-5-12 15:32:00 +0800
 categories: [Blogging, Review]

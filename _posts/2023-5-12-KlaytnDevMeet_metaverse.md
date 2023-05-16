@@ -178,7 +178,7 @@ dNFT는 동적(Dynamic) NFT라는 뜻으로 **스마트 컨트랙트의 논리 �
 > <br />
 > [참조](https://metaverse-knowledge-kit.klaytn.foundation/docs/dynamic-nfts/tutorial)
 
-이번 실습에선 다음의 경험이 있으면 아주 쉽게 따라할 수 있었따.
+이번 실습에선 다음의 경험이 있으면 아주 쉽게 따라할 수 있었다.
 - 스마트 컨트랙트 배포를 해본적 있는가?
 - NFT 민팅을 해본적 있는가?
 - Solidity를 사용해본적 있는가?

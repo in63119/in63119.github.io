@@ -230,157 +230,164 @@ dNFT는 동적(Dynamic) NFT라는 뜻으로 **스마트 컨트랙트의 논리 �
       import "witnet-solidity-bridge/contracts/interfaces/IWitnetPriceFeed.sol";
 
       contract KdynamicNFT is KIP17, KIP17Enumerable, KIP17URIStorage, Ownable {
-         using Counters for Counters.Counter;
+          using Counters for Counters.Counter;
 
-         Counters.Counter private _tokenIdCounter;
+           Counters.Counter private _tokenIdCounter;
 
-         uint public interval; 
-         uint public lastTimeStamp;
+          uint public interval; 
+          uint public lastTimeStamp;
 
-         int256 public currentPrice;
+          int256 public currentPrice;
 
-         IWitnetPriceRouter public witnetPriceRouter;
-         IWitnetPriceFeed public klayUsdtPrice;
-    
-         // IPFS URIs for the dynamic nft graphics/metadata.
-         // NOTE: These connect to my IPFS Companion node.
-         // You should upload the contents of the /ipfs folder to your own node for development.
-         string bullUrisIpfs = "https://ipfs.io/ipfs/QmdcURmN1kEEtKgnbkVJJ8hrmsSWHpZvLkRgsKKoiWvW9g?filename=simple_bull.json";
-         string bearUrisIpfs = "https://ipfs.io/ipfs/QmbKhBXVWmwrYsTPFYfroR2N7NAekAMxHUVg2CWks7i9qj?filename=simple_bear.json";
+          IWitnetPriceRouter public witnetPriceRouter;
+          IWitnetPriceFeed public klayUsdtPrice;
 
-         event TokensUpdated(string marketTrend);
+          // IPFS URIs for the dynamic nft graphics/metadata.
+          // NOTE: These connect to my IPFS Companion node.
+          // You should upload the contents of the /ipfs folder to your own node for development.
+              string bullUrisIpfs = "https://ipfs.io/ipfs/QmdcURmN1kEEtKgnbkVJJ8hrmsSWHpZvLkRgsKKoiWvW9g?filename=simple_bull.json";
+              string bearUrisIpfs = "https://ipfs.io/ipfs/QmbKhBXVWmwrYsTPFYfroR2N7NAekAMxHUVg2CWks7i9qj?filename=simple_bear.json";
 
-         // YOu can pass in 30(seconds) for `updateInterval`
-         constructor(uint updateInterval) KIP17("Klaytn dNFT", "KDNFT") {
-            // Set the keeper update interval
-            interval = updateInterval; 
-            lastTimeStamp = block.timestamp;  //  seconds since unix epoch
+          event TokensUpdated(string marketTrend);
 
-            // Baobab Price-feed contract address
-            witnetPriceRouter = IWitnetPriceRouter(0xeD074DA2A76FD2Ca90C1508930b4FB4420e413B0);
-            updateKlayUsdtPriceFeed();
+          // YOu can pass in 30(seconds) for `updateInterval`
+          constructor(uint updateInterval) KIP17("Klaytn dNFT", "KDNFT") {
+              // Set the keeper update interval
+              interval = updateInterval; 
+              lastTimeStamp = block.timestamp;  //  seconds since unix epoch
 
-            // gets the current KLAY/USDT price and store it to currentPrice var 
-            (currentPrice ,) = getKlayUsdtPrice();
-         }
+              // Baobab Price-feed contract address
+              witnetPriceRouter = IWitnetPriceRouter(0xeD074DA2A76FD2Ca90C1508930b4FB4420e413B0);
+              updateKlayUsdtPriceFeed();
 
-       function safeMint(address to) public  {
-           // Current counter value will be the minted token's token ID.
-           uint256 tokenId = _tokenIdCounter.current();
+              // gets the current KLAY/USDT price and store it to currentPrice var 
+              (currentPrice ,) = getKlayUsdtPrice();
+          }
 
-           // Increment it so next time it's correct when we call .current()
-           _tokenIdCounter.increment();
+          function safeMint(address to) public  {
+              // Current counter value will be the minted token's token ID.
+              uint256 tokenId = _tokenIdCounter.current();
 
-           // Mint the token
-           _safeMint(to, tokenId);
+              // Increment it so next time it's correct when we call .current()
+              _tokenIdCounter.increment();
 
-           // Default to a bull NFT
-           string memory defaultUri = bullUrisIpfs;
-           _setTokenURI(tokenId, defaultUri);
-       }
+              // Mint the token
+              _safeMint(to, tokenId);
 
-       function checkUpkeep(bytes calldata /* checkData */) external view  returns (bool upkeepNeeded, bytes memory /* performData */ ) {
-            upkeepNeeded = (block.timestamp - lastTimeStamp) > interval;
+              // Default to a bull NFT
+              string memory defaultUri = bullUrisIpfs;
+              _setTokenURI(tokenId, defaultUri);
+          }
 
-       }
+          function checkUpkeep(bytes calldata checkData) external view  returns (bool upkeepNeeded, bytes memory performData) {
+              upkeepNeeded = (block.timestamp - lastTimeStamp) > interval;
 
-
-       function performUpkeep(bytes calldata /* performData */ ) external  {
-           //We highly recommend revalidating the upkeep in the performUpkeep function
-           if ((block.timestamp - lastTimeStamp) > interval ) {
-               int latestPrice;
-               lastTimeStamp = block.timestamp;         
-               (latestPrice, ) =  getKlayUsdtPrice();
-
-               if (latestPrice == currentPrice) {
-                   return;
-               }
-
-               if (latestPrice < currentPrice) {
-                   // bear
-                   updateAllTokenUris("bear");
-
-               } else {
-                   // bull
-                   updateAllTokenUris("bull");
-               }
-
-               // update currentPrice
-               currentPrice = latestPrice;
-           } else {
-               return;
-           }
+              return (upkeepNeeded, checkData);
+          }
 
 
-       }
+          function performUpkeep() external  {
+              //We highly recommend revalidating the upkeep in the performUpkeep function
+              if ((block.timestamp - lastTimeStamp) > interval ) {
+                  int latestPrice;
+                  lastTimeStamp = block.timestamp;         
+                  (latestPrice, ) =  getKlayUsdtPrice();
 
-       function updateAllTokenUris(string memory trend) internal {
-           if (compareStrings("bear", trend)) {
-               for (uint i = 0; i < _tokenIdCounter.current() ; i++) {
-                   _setTokenURI(i, bearUrisIpfs);
-               } 
+                  if(compareStrings(tokenURI(0), bearUrisIpfs)) {
+                      latestPrice = currentPrice + 1;
+                  } else {
+                      latestPrice = currentPrice - 1;
+                  }
 
-           } else {     
+                  if (latestPrice == currentPrice) {
+                      return;
+                  }
 
-               for (uint i = 0; i < _tokenIdCounter.current() ; i++) {
-                   _setTokenURI(i, bullUrisIpfs);
-               }  
-           }   
-           emit TokensUpdated(trend);
-       }
-    
-       function updateKlayUsdtPriceFeed() public {
-           IERC165 _newPriceFeed = witnetPriceRouter.getPriceFeed(bytes4(0x5d9add33));
-           if (address(_newPriceFeed) != address(0)) {
-               klayUsdtPrice = IWitnetPriceFeed(address(_newPriceFeed));
-           }
-       }
+                  if (latestPrice < currentPrice) {
+                      // bear
+                      updateAllTokenUris("bear");
 
-       /// Returns the KlAY / USDT price (6 decimals), ultimately provided by the Witnet oracle, and
-       /// the timestamps at which the price was reported back from the Witnet oracle's sidechain 
-       /// to Klaytn Baobab. 
-        function getKlayUsdtPrice() public view returns (int256 _lastPrice, uint256 _lastTimestamp) {
-           (_lastPrice, _lastTimestamp,,) = klayUsdtPrice.lastValue();
-       }
+                  } else {
+                      // bull
+                      updateAllTokenUris("bull");
+                  }
 
-       function compareStrings(string memory a, string memory b) internal pure returns (bool) {
-           return (keccak256(abi.encodePacked((a))) == keccak256(abi.encodePacked((b))));
-       }
+                  // update currentPrice
+                  currentPrice = latestPrice;
+              } else {
+                  return ;
+              }
 
-       function setInterval(uint256 newInterval) public onlyOwner {
-           interval = newInterval;
-       }
 
-       // The following functions are overrides required by Solidity.
-       function _beforeTokenTransfer(address from, address to, uint256 tokenId)
-           internal
-           override(KIP17, KIP17Enumerable)
-       {
-           super._beforeTokenTransfer(from, to, tokenId);
-       }
+          }
 
-       function _burn(uint256 tokenId) internal override(KIP17, KIP17URIStorage) {
-           super._burn(tokenId);
-       }
+          function updateAllTokenUris(string memory trend) internal {
+              if (compareStrings("bear", trend)) {
+                  for (uint i = 0; i < _tokenIdCounter.current() ; i++) {
+                      _setTokenURI(i, bearUrisIpfs);
+                  } 
 
-       function tokenURI(uint256 tokenId)
-           public
-           view
-           override(KIP17, KIP17URIStorage)
-           returns (string memory)
-       {
-           return super.tokenURI(tokenId);
-       }
+              } else {     
 
-       function supportsInterface(bytes4 interfaceId)
-           public
-           view
-           override(KIP17, KIP17Enumerable)
-           returns (bool)
-       {
-           return super.supportsInterface(interfaceId);
-       }
-   }
+                  for (uint i = 0; i < _tokenIdCounter.current() ; i++) {
+                      _setTokenURI(i, bullUrisIpfs);
+                  }  
+              }   
+              emit TokensUpdated(trend);
+          }
+
+          function updateKlayUsdtPriceFeed() public {
+              IERC165 _newPriceFeed = witnetPriceRouter.getPriceFeed(bytes4(0x5d9add33));
+              if (address(_newPriceFeed) != address(0)) {
+                  klayUsdtPrice = IWitnetPriceFeed(address(_newPriceFeed));
+              }
+          }
+
+          /// Returns the KlAY / USDT price (6 decimals), ultimately provided by the Witnet oracle, and
+          /// the timestamps at which the price was reported back from the Witnet oracle's sidechain 
+          /// to Klaytn Baobab. 
+           function getKlayUsdtPrice() public view returns (int256 _lastPrice, uint256 _lastTimestamp) {
+              (_lastPrice, _lastTimestamp,,) = klayUsdtPrice.lastValue();
+          }
+
+          function compareStrings(string memory a, string memory b) internal pure returns (bool) {
+              return (keccak256(abi.encodePacked((a))) == keccak256(abi.encodePacked((b))));
+          }
+
+          function setInterval(uint256 newInterval) public onlyOwner {
+              interval = newInterval;
+          }
+
+          // The following functions are overrides required by Solidity.
+          function _beforeTokenTransfer(address from, address to, uint256 tokenId)
+              internal
+              override(KIP17, KIP17Enumerable)
+          {
+              super._beforeTokenTransfer(from, to, tokenId);
+          }
+
+          function _burn(uint256 tokenId) internal override(KIP17, KIP17URIStorage) {
+              super._burn(tokenId);
+          }
+
+          function tokenURI(uint256 tokenId)
+              public
+              view
+              override(KIP17, KIP17URIStorage)
+              returns (string memory)
+          {
+              return super.tokenURI(tokenId);
+          }
+
+          function supportsInterface(bytes4 interfaceId)
+              public
+              view
+              override(KIP17, KIP17Enumerable)
+              returns (bool)
+          {
+              return super.supportsInterface(interfaceId);
+          }
+      }
    ```
 
    </div>

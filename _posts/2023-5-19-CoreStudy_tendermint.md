@@ -1,9 +1,9 @@
 ---
-title: 2023 5월 Klaytn DevMeet 컨퍼런스 - Metaverse Knowledge Kit
+title: BlockChain Core - The latest gossip on BFT consensus[1]
 author: IN
 date: 2023-5-12 15:32:00 +0800
-categories: [Blogging, Review]
-tags: [BlockChain, Conference, Review, Klaytn, Metaverse]
+categories: [Blogging, Blockchain]
+tags: [BlockChain, Core, Consensus, Tendermint, BFT]
 pin: true
 ---
 

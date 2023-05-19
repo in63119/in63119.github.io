@@ -1,7 +1,7 @@
 ---
 title: BlockChain Core - The latest gossip on BFT consensus[1]
 author: IN
-date: 2023-5-12 15:32:00 +0800
+date: 2023-5-19 13:28:00 +0800
 categories: [Blogging, Blockchain]
 tags: [BlockChain, Core, Consensus, Tendermint, BFT]
 pin: true

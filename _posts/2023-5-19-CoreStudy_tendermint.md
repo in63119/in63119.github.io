@@ -1,5 +1,5 @@
 ---
-title: BlockChain Core - The latest gossip on BFT consensus_1
+title: BlockChain Core - The latest gossip on BFT consensus 1
 author: IN
 date: 2023-5-19 13:28:00 +0800
 categories: [Blogging, Blockchain]

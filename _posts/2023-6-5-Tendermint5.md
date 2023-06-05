@@ -11,6 +11,6 @@ pin: true
 
 > 자료 : [The latest gossip on BFT consensus](https://in-nft.s3.ap-northeast-2.amazonaws.com/The+latest+gossip+on+BFT+consensus.pdf)
 > <br />
-> [지난 포스트 - The latest gossip on BFT consensus 4](https://in63119.github.io/posts/Tendermint4/)
+> [지난 포스트 - The latest gossip on BFT consensus 4](https://in63119.github.io/posts/CoreStudyTendermint4/)
 
 <br />

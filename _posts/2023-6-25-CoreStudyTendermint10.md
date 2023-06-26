@@ -106,3 +106,7 @@ Lemma 6 사용 변수
 
 - (ii)의 경우, q는 라운드 r + 1에서 적어도 하나의 올바른 프로세스 c로부터 메시지를 받았습니다. c가 2f + 1개의 PRECOMMIT 메시지 중에서 id(v)에 대한 PRECOMMIT 메시지를 받았다면, c가 라운드 r + 1을 시작한 가장 빠른 시점은 t + timeoutPrecommit(r)입니다. 위와 동일한 추론이 이 경우에도 성립하므로, q는 t + ∆ 시간까지 validValue를 v로 설정하고 validRound를 r로 설정할 수 있습니다. 
 t + ∆ < t + timeoutPrecommit(r)이므로, timeoutPrecommit(r) > ∆인 경우에도 Lemma가 성립합니다.
+
+---
+
+다음에 계속...

@@ -38,7 +38,7 @@ and validRound are updated to v and r by a correct process in a round r when the
 <br />
 
 흔히 축구를 보다보면 "골 결정력"이라는 말을 듣게 된다. 상대 골대 앞까지 드리블을 하고 나서 골인까지 마무리하는 것을 골 결정력이라고 한다.
-> <img src="https://thumbnews.nateimg.co.kr/view610///news.nateimg.co.kr/orgImg/sk/2021/07/21/SK007_20210721_210201.jpg" alt="goal" width="600"/>
+> <img src="https://github.com/in63119/in63119.github.io/assets/65399118/9cfdb93d-7994-4357-a646-eca67cff6cb3" alt="goal" width="600"/>
 > <br />
 > 이미지 출처: 21년 네이트 기사
 

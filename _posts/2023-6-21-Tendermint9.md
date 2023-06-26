@@ -109,3 +109,7 @@ Lemma 5 사용 변수
     - 어떤 값 v에 대한 PROPOSAL 메시지를 전송
 - 모든 올바른 프로세스들은 최대한 t + 2∆ + timeoutPrecommit(r − 1) 시간까지 q로부터 PROPOSAL 메시지를 수신
 - 이로 인해, 만약 timeoutPropose(r) > 2∆ + timeoutPrecommit(r − 1)이라면, 모든 올바른 프로세스들은 *timeoutPropose(r)이 만료되기 전*에 PROPOSAL 메시지를 수신할 것이다.
+
+---
+
+다음에 계속...

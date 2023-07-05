@@ -172,3 +172,11 @@ The rest of the paper is organized as follows. Section 2 introduces various mode
 샤딩은 블록체인의 확장성을 높이는 유망한 기술이지만, 아직 해결해야 할 많은 특정 설계 과제가 있다.
 
 - 이 후 논문에서 알려줄 것
+
+<br />
+
+---
+
+<br />
+
+다음에 계속...
